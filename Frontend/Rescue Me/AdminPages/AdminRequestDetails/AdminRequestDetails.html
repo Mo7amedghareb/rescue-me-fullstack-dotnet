@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>تفاصيل الطلب</title>
+    <link rel="icon" type="image/png" href="/assets/logo (9).png">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="AdminRequestDetails.css">
+
+</head>
+
+<body>
+
+    <div class="page">
+
+        <!-- أعلى الصفحة -->
+        <div class="top-row">
+            <div class="top-right">
+                <div class="title">تفاصيل الطلب</div>
+                <span class="badge-order" id="d_orderNo">#REQ-</span>
+                <div class="status-text" id="d_statusText"></div>
+            </div>
+            <button class="back-btn"><a href="/AdminPages/AdminHomePage/AdminHome.html">العودة للطلبات</a></button>
+        </div>
+
+        <!-- بطاقات المعلومات -->
+        <section class="cards-row">
+
+
+            <!-- معلومات الطلب -->
+            <div class="info-card">
+                <div class="info-header">
+                    <div class="icon-box"><img style="width: 30px;" src="/assets/Admin Assets/orderinfo.png" alt="">
+                    </div>
+                    <h3>معلومات الطلب</h3>
+                </div>
+
+                <div class="field">
+                    <div class="field-label">تاريخ الطلب</div>
+                    <div class="field-value" id="d_createdAt"></div>
+                </div>
+
+                <div class="field">
+                    <div class="field-label">نوع الخدمة
+                    </div>
+                    <div class="field-value" id="d_serviceType"></div>
+                </div>
+
+                <div class="field">
+                    <div class="field-label">
+                        سعر الخدمه
+                    </div>
+                    
+                    <div style="display: inline;" class="field-value" id="d_servicePrice">
+                    </div>
+                    <span>جنيه</span>
+                </div>
+
+                <div class="field">
+                    <div class="field-label">الموقع</div>
+                    <div class="field-value" id="d_address"
+                        style="background-color: rgb(241, 241, 241);padding: 8px;padding-top: 16px;padding-bottom: 16px;border-radius: 8px;">
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- بيانات العميل -->
+            <div class="info-card">
+                <div class="info-header">
+                    <div class="icon-box"><img style="width: 30px;" src="/assets/Admin Assets/clientdata.png" alt="">
+                    </div>
+                    <h3>بيانات العميل</h3>
+                </div>
+
+                <div class="field">
+                    <div class="field-label">اسم العميل</div>
+                    <div class="cust-name" id="d_userName"></div>
+                </div>
+
+                <div class="field">
+                    <div class="field-label">رقم التواصل</div>
+                    <div id="d_userPhone"></div>
+                </div>
+
+
+                <div class="field">
+                    <div class="field-label">نوع السيارة</div>
+                    <div class="field-value" id="d_carName"></div>
+                </div>
+                
+
+                <div class="field">
+                    <div class="field-label">وصف المشكلة</div>
+                    <div id="d_description"></div>
+                </div>
+            </div>
+
+
+
+
+            <div class="info-card">
+                <div class="info-header">
+                    <div class="icon-box"><img style="width: 30px;" src="/assets/Admin Assets/providerdata.png" alt="">
+                    </div>
+                    <h3>بيانات المزود</h3>
+                </div>
+
+                <div class="field">
+                    <div class="field-label">اسم المزود</div>
+                    <div class="field-value" id="d_providerName"></div>
+                </div>
+
+                <div class="field">
+                    <div class="field-label">رقم التواصل</div>
+                    <div class="field-value" id="d_providerPhone"></div>
+                </div>
+
+                <div class="field">
+                    <div class="field-label">نوع الخدمه</div>
+                    <div class="field-value" id="d_providertype"></div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- تقييم العميل -->
+        <section class="review-card">
+            <div class="review-title">تقييم العميل:</div>
+            <div class="review-stars" id="d_rateStars"></div>
+            <div class="review-inner">
+                <div class="review-text" id="d_comment"></div>
+            </div>
+        </section>
+
+
+
+    </div>
+    <!-- ==================== FOOTER ==================== -->
+    <footer>
+        <div class="container">
+            <div class="footer-top">
+                <h6>المنقذ للسيارات</h6>
+            </div>
+
+            <div class="footer-bottom">
+                <p>جميع الحقوق محفوظة لدى المنقذ للسيارات © ٢٠٢٦</p>
+            </div>
+        </div>
+    </footer>
+    <script src="AdminRequestDetails.js"></script>
+</body>
+
+</html>

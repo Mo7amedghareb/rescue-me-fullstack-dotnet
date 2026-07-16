@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>تتبع الطلب</title>
+    <link rel="icon" type="image/png" href="/assets/logo (9).png">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="RequestStatus.css">
+    <style>
+        .payment-section {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 16px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .payment-section h5 {
+            font-size: 14px;
+            font-weight: 700;
+            color: #374151;
+            margin-bottom: 12px;
+        }
+
+        .payment-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .payment-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 14px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Cairo', sans-serif;
+            font-size: 14px;
+            background: white;
+            width: 100%;
+            text-align: right;
+        }
+
+        .payment-option:hover {
+            border-color: #004471;
+            background: #f0f7ff;
+        }
+
+        .payment-option.selected {
+            border-color: #004471;
+            background: #e8f4fd;
+        }
+
+        .payment-option input[type="radio"] {
+            accent-color: #004471;
+            width: 16px;
+            height: 16px;
+        }
+
+        .payment-option .pay-icon {
+            font-size: 20px;
+        }
+
+        .payment-info-box {
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-radius: 12px;
+            padding: 14px;
+            margin-top: 12px;
+            display: none;
+            text-align: center;
+        }
+
+        .payment-info-box.show {
+            display: block;
+        }
+
+        .payment-number {
+            font-size: 22px;
+            font-weight: 800;
+            color: #004471;
+            letter-spacing: 2px;
+            direction: ltr;
+        }
+
+        .payment-info-box p {
+            font-size: 12px;
+            color: #6b7280;
+            margin: 6px 0 0;
+        }
+
+        .confirm-payment-btn {
+            width: 100%;
+            background: #004471;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 12px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            margin-top: 12px;
+            cursor: pointer;
+            display: none;
+        }
+
+        .confirm-payment-btn:hover {
+            background: #003358;
+        }
+
+        .confirm-payment-btn.show {
+            display: block;
+        }
+
+        .payment-confirmed-badge {
+            background: #dcfce7;
+            color: #16a34a;
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 13px;
+            font-weight: 700;
+            text-align: center;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .payment-confirmed-badge.show {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="navbar">
+        <div class="logo">
+            <img style="width:32px;margin-left:8px;" src="/assets/logo (9).png" alt="">
+            المنقذ للسيارات
+        </div>
+        <div class="nav-links">
+            <div class="link-3"><a style="text-decoration:none;color:#0d3b66;" href="../Home/Home.html">الرئيسية</a>
+            </div>
+            <div class="link-2"><a style="text-decoration:none;color:#0d3b66;"
+                    href="../RequestService/Requestservice.html">الخدمات</a></div>
+            <div class="text-wrapper-2"><a style="text-decoration:none;color:#0d3b66;"
+                    href="/UserPages/OrdersHistory/myOrders.html">طلباتي</a></div>
+            <div class="text-wrapper-2"><a style="text-decoration:none;color:#0d3b66;"
+                    href="../ContactUs/Contactus.html">تواصل معنا</a></div>
+        </div>
+        <div class="nav-icons">
+            <button class="btn btn-sm btn-danger" id="logoutBtn" style="display:none;" onclick="logoutUser()">تسجيل
+                الخروج</button>
+        </div>
+    </div>
+
+    <div class="container d-flex justify-content-between my-5">
+
+        <div class="w-75">
+            <div class="map-card">
+                <div id="trackingMap"></div>
+                <div class="live-badge"><span></span> يتم الآن تتبع المزود</div>
+                <div class="eta-box" id="etaText">الوقت المتوقع للوصول 15 دقيقة</div>
+            </div>
+
+            <div class="timeline">
+                <div class="steps">
+                    <div class="step">
+                        <div class="circle" id="step-confirmed">✔</div>
+                        <span>تم تأكيد الطلب</span>
+                    </div>
+                    <div class="step-line" id="line-1"></div>
+                    <div class="step">
+                        <div class="circle" id="step-onway">🚚</div>
+                        <span>في الطريق إليك</span>
+                    </div>
+                    <div class="step-line" id="line-2"></div>
+                    <div class="step">
+                        <div class="circle" id="step-done">🧰</div>
+                        <span>تم تقديم الخدمة</span>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- ✅ Payment Section -->
+            <div id="paymentSection" style="display:none;" class="payment-section">
+                <h5>💳 طريقة الدفع</h5>
+                <div class="payment-options">
+
+                    <label class="payment-option" id="opt-cash">
+                        <input type="radio" name="payMethod" value="cash" onchange="selectPayment('cash')">
+                        <span class="pay-icon">💵</span>
+                        <span>كاش</span>
+                    </label>
+
+                    <label class="payment-option" id="opt-instapay">
+                        <input type="radio" name="payMethod" value="instapay" onchange="selectPayment('instapay')">
+                        <span class="pay-icon">📱</span>
+                        <span>InstaPay</span>
+                    </label>
+
+                    <label class="payment-option" id="opt-wallet">
+                        <input type="radio" name="payMethod" value="wallet" onchange="selectPayment('wallet')">
+                        <span class="pay-icon">👛</span>
+                        <span>محفظة إلكترونية</span>
+                    </label>
+
+                    <label class="payment-option" id="opt-paymob">
+                        <input type="radio" name="payMethod" value="paymob" onchange="selectPayment('paymob')">
+                        <span class="pay-icon">💳</span>
+                        <span>PayMob</span>
+                    </label>
+
+                </div>
+
+                <div class="payment-info-box" id="paymentInfoBox">
+                    <p id="paymentInfoLabel">ادفع على رقم المنقذ</p>
+                    <div class="payment-number">01119463672</div>
+                    <p>بعد التحويل اضغط "تأكيد الدفع"</p>
+                </div>
+
+                <button class="confirm-payment-btn" id="confirmPayBtn" onclick="confirmPayment()">
+                    ✅ تأكيد الدفع
+                </button>
+
+                <div class="payment-confirmed-badge" id="paymentConfirmedBadge">
+                    ✅ تم تأكيد الدفع بنجاح
+                </div>
+            </div>
+        </div>
+
+        <div class="leftdiv">
+            <div class="d-flex justify-content-between align-items-center">
+                <p>حالة الطلب</p>
+                <div class="status-badge" id="requestStatus">قيد الانتظار</div>
+            </div>
+
+            <div class="provider">
+                <img src="/assets/Profilelogo.png">
+                <h3 id="providerName">في انتظار المزود...</h3>
+                <div class="d-flex flex-column">
+                    <span id="providerJob"></span>
+                    <div class="rating" id="providerRate"></div>
+                </div>
+            </div>
+
+            <div class="details">
+                <b>نوع الخدمة</b><span id="serviceName"></span><br><br>
+                <b>نوع السيارة</b><span id="carName"></span><br><br>
+                <b>رقم اللوحة</b><span id="plateNumber"></span><br><br>
+                <b>رقم الطلب</b><span id="orderNumber"></span><br><br>
+                <b>رقم المزود</b><span id="providerPhone" style="color:#888;">في انتظار القبول...</span><br><br>
+                <b>إجمالي التكلفة</b><span id="totalPrice" style="color:#0f4c75;font-weight:700;">—</span><br><br>
+                <b>العنوان الحالي</b><span id="userAddress">جاري التحميل...</span>
+            </div>
+
+
+
+            <!-- الأزرار — كل واحد بـ id للتحكم فيه من الـ JS -->
+            <button class="btn btn-success mt-3" id="doneBtn" style="display:none;">
+                <a style="text-decoration:none;color:white;" href="../RateService/RateService.html">انهاء وتقييم</a>
+            </button>
+
+            <button class="btn my-3" id="cancelBtn" style="background-color:red; display:none;">
+                <a style="text-decoration:none;color:white;" href="../RequestService/Requestservice.html">
+                    <img style="width:20px;margin-left:10px;" src="/assets/cancellogo.png">
+                    إلغاء الطلب
+                </a>
+            </button>
+
+            <!-- رسالة الرفض -->
+            <div id="rejectedMsg"
+                style="display:none; background:#fee2e2; color:#dc2626; padding:16px; border-radius:12px; text-align:center; margin-top:16px; font-weight:700;">
+                ❌ تم رفض طلبك من قِبَل المزود
+                <div style="font-size:13px; font-weight:400; margin-top:6px;">يمكنك إنشاء طلب جديد</div>
+                <a href="../RequestService/Requestservice.html"
+                    style="display:inline-block; margin-top:10px; background:#dc2626; color:white; padding:8px 20px; border-radius:8px; text-decoration:none; font-size:13px;">
+                    طلب جديد
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-top">
+                <h6>المنقذ للسيارات</h6>
+                <div class="footer-links">
+                    <a href="/UserPages/ContactUs/Contactus.html">تواصل معنا</a>
+                    <a href="#">مركز المساعدة</a>
+                    <a href="/conditions_and_privacy.html">الشروط والأحكام</a>
+                    <a href="/conditions_and_privacy.html">سياسة الخصوصية</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>جميع الحقوق محفوظة لدى المنقذ للسيارات © ٢٠٢٦</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="RequestStatus.js"></script>
+    <script src="/Userlogout.js"></script>
+</body>
+
+</html>
