@@ -1,87 +1,37 @@
 # Rescue Me
 
-Rescue Me is a full-stack roadside assistance platform that helps drivers across Egypt quickly connect with nearby emergency service providers such as tow trucks, mechanics, and auto electricians.
+A roadside assistance web project for drivers in Egypt. Drivers can request a tow truck, mechanic or auto electrician and follow the status of their request. Service providers can receive requests and update their progress.
 
-The platform was designed to reduce the waiting time and safety risks drivers face when their vehicles break down by providing a simple, fast, and location-based assistance system.
+## My contribution
 
----
+I designed the full UI/UX, built the frontend with HTML, CSS, JavaScript and Bootstrap, and developed the .NET backend. I also used GitHub for the project.
+
+I built the project for business-university students and helped them learn throughout the process. I recorded step-by-step explanation videos, explained the code in working meetings and taught them how to use GitHub. The project received an excellent grade.
 
 ## Features
 
-- User Registration & Login
-- Request Roadside Assistance
-- GPS-Based Location Sharing
-- Real-Time Service Request Tracking
-- Driver Dashboard
-- Service Provider Dashboard
-- User Feedback & Rating System
-- Responsive UI
-- SweetAlert2 Notifications
+- Registration and login
+- Roadside service requests and location sharing
+- Request status tracking
+- Driver and service-provider dashboards
+- Service feedback and ratings
 
----
+## Tech stack
 
-## Tech Stack
+- **Design:** Figma
+- **Frontend:** HTML, CSS, JavaScript and Bootstrap
+- **Backend:** C# and ASP.NET Core targeting .NET 8
+- **Database:** SQL Server with Entity Framework Core
 
-### UI/UX
+## Repository structure
 
-- Figma
+- `Frontend/` - web interface
+- `Backend/` - .NET application
+- `Ui-Ux/` - design reference
+- `Explanation videos drive link/` - walkthrough reference
 
-### Frontend
+## Walkthrough and setup
 
-- HTML5
-- CSS3
-- JavaScript
-- Bootstrap
+[Project videos, documentation and local setup guide](https://drive.google.com/drive/u/0/folders/1CMJgwU3W1K2zXslJ5ypFpcUvslkQQywp)
 
-### Backend
-
-- ASP.NET
-- C#
-
-### Database
-
-- SQL Server
-
----
-
-## Project Architecture
-
-```
-Frontend
-    │
-    ▼
-ASP.NET Backend
-    │
-    ▼
-SQL Server Database
-```
-
----
-
-## Project Purpose
-
-The project aims to provide a reliable digital solution for roadside emergencies by connecting drivers with nearby service providers through an easy-to-use web platform.
-
----
-
-## Demo
-
-Project explanation videos:
-
-**Google Drive:**  
-(Add your Google Drive link here)
-
----
-
-## Screenshots
-
-(Add screenshots here)
-
----
-
-## Author
-
-**Mohamed Ghareb**
-
-- GitHub: https://github.com/Mo7amedghareb
-- LinkedIn: https://www.linkedin.com/in/mohamedgharebmg
+The folder includes the project overview video, frontend and backend explanations, database materials and a guide to running the whole project locally.
